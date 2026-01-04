@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="dial.ApiService/dial.ApiService.csproj" />
+  <Project Path="dial.AppHost/dial.AppHost.csproj" />
+  <Project Path="dial.ServiceDefaults/dial.ServiceDefaults.csproj" />
+  <Project Path="dial.Web/dial.Web.csproj" />
+</Solution>

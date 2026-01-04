@@ -1,0 +1,27 @@
+h1 {
+  background-color: blue;
+}
+
+.glass-overlay {
+    opacity: 0.5;
+}
+
+.dial {
+    animation: loopPositive 4s 1 linear reverse;
+}
+
+@property --target-pos {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 200;
+}
+
+@keyframes loopPositive_property {
+  0% { transform: translateX(0); }
+  100% { transform: translate(var(--target-pos) 0); }
+}
+
+@keyframes loopPositive {
+  0% { transform: translateX(0); }
+  100% { transform: translate(-400 0); }
+}
