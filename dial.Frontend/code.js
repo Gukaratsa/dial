@@ -6,6 +6,8 @@ const dialMoveTiming = {
      iterations: 1,
      fill: "forwards"};
 
+window.setInterval(GetPosition, 1000);
+
 function func() {
     console.log("Hello world")
     //console.log(element.style.getPropertyValue("--target-pos", 200))
@@ -13,27 +15,47 @@ function func() {
 }
 
 function func2() {
-    to = document.getElementById("target").value / -0.5;
-
-    fetch("https://localhost:7307/GetValue").then(function(response) {
+    let speed = document.getElementById("speed").value;
+    fetch("https://localhost:7307/SetSpeed?speed=" + speed).then(function(response) {
     return response.json();
     }).then(function(data) {
     console.log(data);
-    to = data.value / -0.5
-    
     }).catch(function(err) {
     console.log('Fetch Error :-S', err);
     });
+}
+function GetPosition() {
+    fetch("https://localhost:7307/GetValue").then(function(response) {
+    return response.json();
+    }).then(function(data) {
+        console.log(data);
+        to = data.value / -0.5
+        while(to > 0)
+            to = to - 200
 
-    let dial_mm = document.getElementById("dial_mm");
+        while(to < -200)
+            to = to + 200
 
-    let dialMove = [
-        { transform: "translateX(" + from + "%)"},
-        { transform: "translateX(" + to + "%)"}];
+        let dial_mm = document.getElementById("dial_mm");
 
-    console.log("from: " + from + ", to:" + to)
-    from = to
-    dial_mm.animate(dialMove, dialMoveTiming)
+        // -200 = full 
+        if(data.positive)
+            while(from < to)
+                from = from + 200
+        else 
+            while(from > to)
+            from = from - 200
+
+        let dialMove = [
+            { transform: "translateX(" + from + "%)"},
+            { transform: "translateX(" + to + "%)"}];
+
+        console.log("from: " + from + ", to:" + to)
+        from = to
+        dial_mm.animate(dialMove, dialMoveTiming)
+    }).catch(function(err) {
+    console.log('Fetch Error :-S', err);
+    });
 }
 
 function onmousedown() {
